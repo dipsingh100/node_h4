@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import "../loader.css"
+import host from '../host'
 
 const CheckToken = ({ Component, endpoint, ...rest }) => {
     const [data, setData] = useState(null)
@@ -13,7 +14,7 @@ const CheckToken = ({ Component, endpoint, ...rest }) => {
 
         const checkToken = async () => {
             try {
-                const res = await axios.get(`http://localhost:8000/${endpoint}`, {
+                const res = await axios.get(`${host}/${endpoint}`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

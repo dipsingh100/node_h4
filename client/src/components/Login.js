@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from "axios"
 import { Link, useNavigate } from 'react-router-dom'
+import host from '../host'
 
 const Login = () => {
   const [inputdata, setInput] = useState({ email: "", password: "" })
@@ -14,7 +15,7 @@ const Login = () => {
 
     if (checkEmail) {
       try {
-        const { data } = await axios.post("http://localhost:8000/user/login", inputdata, {
+        const { data } = await axios.post(`${host}/user/login`, inputdata, {
           headers: {
             "Content-Type": "application/json",
           }

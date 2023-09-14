@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from "axios"
 import { useNavigate } from 'react-router-dom'
+import host from '../host'
 
 const Register = () => {
   const [inputdata, setInput] = useState({ name: "", phone: "", email: "", password: "" })
@@ -13,11 +14,10 @@ const Register = () => {
 
     const checkEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(inputdata.email)
     const passwordCheck = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/.test(inputdata.password)
-    console.log(checkEmail);
 
     if (checkEmail && passwordCheck) {
       try {
-        const { data } = await axios.post("http://localhost:8000/user/register", inputdata)
+        const { data } = await axios.post(`${host}/user/register`, inputdata)
         
         window.localStorage.setItem("token", data.accesstoken)
         // Successful response
