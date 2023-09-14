@@ -22,6 +22,13 @@ const errHandler = (err, req, res, next) => {
                 stackTrace: err.stack
             })
             break
+        case 409:
+            res.json({
+                title: "Conflict",
+                message: err.message,
+                stackTrace: err.stack
+            })
+            break
         default: res.json({
             title: "Server Error",
             message: err.message,

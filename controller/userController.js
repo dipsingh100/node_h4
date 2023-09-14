@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
+const generateToken = require("../utils/generateToken")
 const arr = []
 require("dotenv").config()
 
@@ -12,13 +13,16 @@ const register = (req, res) => {
     const user = arr.find(item => item.email === email)
     //if user exist
     if (user) {
-        res.status(400)
+        res.status(409)
         throw new Error("User already registered")
     }
 
     const hashPassword = bcrypt.hashSync(password, 10)
     arr.push({ name, phone, email, password: hashPassword })
-    res.status(201).json({ name, email })
+
+    const accesstoken = generateToken(name, phone, email)
+
+    res.status(201).json({ accesstoken, message: "Successfully Registered" })
 }
 
 const login = (req, res) => {
@@ -26,24 +30,26 @@ const login = (req, res) => {
     const user = arr.find(item => item.email === email)
     //if user not exist
     if (!user) {
-        res.status(400)
-        throw new Error("User not found!")
+        res.status(404)
+        throw new Error("User not Registered!")
     }
     const checkPassword = bcrypt.compareSync(password, user.password)
     if (!checkPassword) {
-        res.status(400)
-        throw new Error("Wrong Password")
+        res.status(401)
+        throw new Error("Invalid Password")
     }
     //generate token
-    const accesstoken = jwt.sign({
-        user: {
-            name: user.name,
-            phone: user.phone,
-            email: user.email
-        }
-    }, process.env.SECRET_KEY, { expiresIn: "5m" })
+    const accesstoken = generateToken(user.name, user.phone, user.email)
     res.status(200).json({ accesstoken, message: "Successfully Logged in" })
 }
 
+const dashboard = (req, res) => {
+    res.send({ articles: "random articles", username: req.user.name })
+}
 
-module.exports = { register, login }
+const profile = (req, res) => {
+    res.send(req.user)
+}
+
+
+module.exports = { register, login, dashboard, profile }
