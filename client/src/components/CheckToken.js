@@ -38,11 +38,15 @@ const CheckToken = ({ Component, endpoint, ...rest }) => {
     if (isLoading) {
         return (
             <div className="loader">
-                <div className="newtons-cradle">
-                    <div className="newtons-cradle__dot"></div>
-                    <div className="newtons-cradle__dot"></div>
-                    <div className="newtons-cradle__dot"></div>
-                    <div className="newtons-cradle__dot"></div>
+                <div class="dot-spinner">
+                    <div class="dot-spinner__dot"></div>
+                    <div class="dot-spinner__dot"></div>
+                    <div class="dot-spinner__dot"></div>
+                    <div class="dot-spinner__dot"></div>
+                    <div class="dot-spinner__dot"></div>
+                    <div class="dot-spinner__dot"></div>
+                    <div class="dot-spinner__dot"></div>
+                    <div class="dot-spinner__dot"></div>
                 </div>
             </div>
         )
